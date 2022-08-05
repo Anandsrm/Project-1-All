@@ -1,36 +1,381 @@
-# EPAM-COE-2022-DEVOPS
-This repository was created during EPAM-COE 2022 training.
-### What is DevOps?
-Development and Operations (DevOps) is a set of practices that combines software development (Dev) and IT operations (Ops). It aims to shorten the systems 
-development life cycle and provide continuous delivery with high software quality. Since the software develeopment is transported across departments, it is not 
-suitable to do a on-prem development. DevOps tools provide us with the ease to write the code in such a way so that it can be easily be transported and changed across 
-departmemnts.
+# demos
 
-### How DevOps tools can help?
+## k8-1 - INTRODUCTION AND NEED.
 
-Devops automates the production and development in 3 steps:
+## k8-2 -  
+	1.	Install k8
+	2.	Install kubectl.exe
+	3.	Installing one image in pod
+	4.	Deletion of the pod
+	5.	DEPLOYEMNT CONTROLLER PROGRAM
+	6.	Check every step of pod management
+	7.	GUI interface of Minikube
+	8.	Exposing the IP of pod to outside world.
+	9.	Creating replica of a pod
+	10.	Checking deletion and automatic relaunching of Pod
 
-                       Creation     Application Deployment    Monitoring
-                      -----------\      ---------------\      ---------\
-                      -----------/      ---------------/      ---------/
-            
-  **Automated Creation of Resources:** If a SW developer wants to automate creation of resources only and wants to leave everything else for later the tools like VAGRANT and TERRAFORM can help.
+## k8-3 -  
+	11.     Lanunching pod via code.
+
+
+## k8-4 -  
+	12.	Docker container in LAN 
+	13. 	Replication Controller
+	14.     EXPOSE CONTAINERS TO PUBLIC WORLD
+	15. 	CREATE RPLICAS
+
+## k8-5 -  
+	16.	Types of LoadBalancing(LB) - a. Cluster IP - b. NodePort - c. External LB
+	1. Create a LB code
+	2. Use of LABELS
+	3. Regisetr newly launched Pod under ENDPOINTS OF LB.
+	4. Verifying CLuster IP Load balancing.
+	5. Exposing to Public World: NodePort Load balancing
+	6. Verifying NodePort Load balancing via CLI and GUI both.
+
+
+## k8-6 - 	
+	17.	DEPLOY MULTINODE ARCHITECHTUTE IN K8
+	1.launching one pod in k8 and configuring Wordpress image as fronted.
+	2.launching another pod in K8 and configuring mysql database as backend.
+	3.Exposing the frontend(NODE PORT in K8) server for public client.
+	4.keeping another OS isolated as the best secuty is avoid the networking with public world.
+	5.Concept of ENVIRONMENT VARIABLES also known as Shell Variables.
+	6.login into the pod of database via CLI and then login in mysql to view and edit the tables.
+
+
+
+## k8-7 - 	
+	18.	Launching the DB mySQL via yaml code in KUBERNETES-
+	19.	SECRET SERVICE OF K8 via yaml-
+			<i>Encoding the confidential Info of DB, like root_passwrod and username, as to use mysql image we have pass four info 
+			(MYSQL_ROOT_PASSWORD, MYSQL_DATABASE, MYSQL_USER, MYSQL_PASSWORD) as Environment Variables.</i>
+	20.	Extracting the encoded password of secret via CLI –
+			<i>K8’s master server only understands YAML, so pod launched via CLI even first get converted to YAML then passed in to K8 for executing.
+			So, exposing this file will get me the encoded password too and can decode it by base64 conversion.</i>
+	21.	Create a secret key via CLI
+			<i>Exploring the help command to get the usage of SECERET in K8 via CLI.</i>
+## k8-8 - 	
+	22.	Scale in and Scala out via CLI using Deployment
+	23.	bulding docker image and push to docker hub
+	24.	Update image in fly with newer version with 100% uptime
+	25.	undo the deployment
+
+## k8-13 - 
+	26.	Multinode CLuster in kuberntes
+
+## k8-16
+
+	1. 	Go to master. connect to putty.
+	2.
+	a.	User – create private key
+	b.	Generate CSR from private key
+	c.	Send this CSR to master of cluster
+	d.	Master will sign this CSR(Certificate Signing Request) and CRT(Chinese  reminder Theorem) is generated, the one who signed CSR is called CA(certificate Authority)
+		Q : where is CA present in K8 master ? cd /etc/Kubernetes/pki/ , ls, ca.crt
+		Q: how to create CSR?   In linux kernel based OS, openssl is used.
+	e.	Send this CRT to user.
+	f.	Installing kubectl
+	g.	Client should know where kube-master API running - give API server IP: port , user , pass: certificate/pvt key
+	h.	Client  - > https -> kubemaster – client must have CA crt  to connect to https server
+	i.	Set-credentials
+	j.	Creating user not in k8 master – but in VM local system and have to provide the key based authentication.
+	k.	Need to set context
+				
+
+# Commands till yet: 
+
+1. cd "C:\Program Files\Kubernetes\Minikube"
+2. minikube.exe start --driver=virtualbox --kubernetes-version=v1.20.0
+3. minikube status
+4. curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.20.0/bin/windows/amd64/kubectl.exe - download kubectl
+5. kubectl.exe get pods  
+6. kubectl.exe run myweb1 --image=vimal13/apache-webserver-php
+7. kubectl.exe delete pod myweb1
+8. kubectl.exe create deployment myweb1 --image=vimal13/apache-webserver-php
+9. kubectl delete -n default deployment myweb1
+10. kubectl.exe describe pods
+11. minikube dashboard
+12. minikube.exe start/stop
+13. kubectl.exe expose deployments myweb1  --port=80  --type=NodePort - expose the pod to public -PATing
+14. minikube service myweb1 --url
+15. kubectl.exe scale deployment myweb1 --replicas=4
+16. kubectl.exe get deployments
+17. minikube delete all --all
+18. kubectl.exe delete all --all
+19. in vm : docker ps |  grep vimal13
+20. kubectl.exe create -f pod.yml 
+
+21. kubectl get pods -L <labelKeyName>
+22. kubectl get rc   
+23. kubectl describe rc <rcName>
+24. kubectl expose rc <rcName>  --port=80  --type=NodePort
+25. kubectl get services  - loadbalancing perfomed by K8 - clusterIP, NodePort, External LoadBalancer
+26. ifconfig | less 
+27. curl http://IP:Port
+
+28. kubectl get svc -    status of services
+29. kubectl get svc <podName>
+30. kubectl describe svc <podName>
+
+31. kubectl run mydb –image=mysql:5.7  					
+32. kubectl logs mydb							
+33. kubectl exec -it myos1 -- bash						
+34. x=4  echo$x											
+35. vi /root/.bashrc							
+36. kubectl run myos1 --image=vimal13/apache-webserver-php --env=x=10  
+37. kubectl run mydb --image=mysql:5.7 --env=MYSQL_ROOT_PASSWORD=redhat --env=MYSQL_DATABASE=wpdb --env=MYSQL_USER=akshay --env=MYSQL_PASSWORD=anil
+38. mysql -u <username> -p<password> 					 
+39. SQL commands
+    show databases;
+    use <databaseName>
+    show tables;
+40. kubectl run mywp –image=wordpress:5.1.1-php7.3-apache    		 
   
-  **Automated Deployment of Applications:** If a SW developer wants to automate creation of resources and deployment of applications and wants to leave everything else for later the tools like VAGRANT+DOCKER or VAGRANT+Ansible or TERRAFORM+DOCKER can help.
- 
- **Automated Monitoring:** If a SW developer wants to automate everything the tools like VAGRANT+Ansible+Kubernetes and TERRAFORM+CHEF+Kubernetes can help.
-The table below shows which tools is useful in which context.
-| Technology    | Automation Level          | Alternatives                     | Path in Repo|
-| ------------- | --------------------      | -------------------------        |----------   |
-| Vagrant       | Resource Creation         | Terraform, AWS CLOUD Formation   |             |
-| Terraform     | Resource Creation         | Vagrant, AWS CLOUD FOrmation     |             |
-|Ansible        | Application deployment    | CHEF, Puppet                     |             |     
-|Docker         | Application deployment    |                                  |             |             
-|Kubernetes     | Resource Monitoring       | Kubernetes Charm, AWS EKS        |             |
+41. kubectl get secrets   						
+42. kubectl get pods <podanme> -o yaml.					
+43. kubectl get secret mysecret -o yaml					
+44. kubectl create -h							
+45. kubectl create secret generic mys  --from-literal=key=value	]
 
-### How to use this Repository?
-This repository consists of severalk projects each of these projects has a ReadMe file. Go through the README file meritiously and try to deploy the applications.
+k8 - 8
 
-Feel free to forward me the bugs with _verbose_ output 
+46. kubectl get rs
+47. kubectl scale deployment myd --replicas=3  				
+48. kubectl scale deployment myd --replicas=2  				
+BUILDING DOCKER IMAGE
+mkdir /d-image
+cd /d-image/
+vim Dockerfile								
+docker build -t “usernameDockerhub/anyname:version” /d-image/		
+docker push “image_name”						
+docker run -dit “imagename”						
+docker inspect <id_of_container>   					
 
-Dr.L.Anand[anandmtech1985@gmail.com] 
+NOTE: syntax of image name to be able to push “usernameDockerhub/anyname:version”
+
+50. kubectl set image deployment mydp akshayanil=456793/akshayanil:v2	
+51. kubectl rollout undo deployment mydp	
+
+k8 - 13
+<pre>
+1. launch three instance
+2. setting up of master
+	installation of docker
+		1.	yum install docker -y
+		2. 	systemctl enable docker –now
+		3.	docker info
+
+	installation of kubeadm
+		1. 	yum install kubeadm  - fails
+		2. 	vi /etc/yum.repos.d/kubernetes.repo   - need to setup the repo
+		3. 	yum repolist
+		4. 	yum install -y kubelet kubeadm kubectl --disableexcludes=Kubernetes
+		5.	systemctl status kubelet
+		6. 	systemctl enable kubelet –now
+		7.	kubeadm config images pull
+		8.	docker images – docker ps
+		9. 	kubeadm init -h
+		10.	kubeadm init --pod-network-cidr=10.240.0.0./16
+				1st error: [WARNING IsDockerSystemdCheck]: we have to use system instead of cgroups. 
+					vi /etc/docker/daemon.json
+						{
+ 						  "exec-opts": ["native.cgroupdriver=systemd"]
+						}
+					cat /etc/docker/daemon.json
+					systemctl restart docker
+					docker info | grep Driver
+
+				2nd error: [WARNING FileExisting-tc]: tc not found in system path
+					yum install iproute-tc
+
+				3rd error: FileContent—proc-sys-net-bridge-bridge-nf-call-iptables
+					vim /etc/sysctl.d/k8s.conf
+						net.bridge.bridge-nf-call-ip6tables = 1
+						net.bridge.bridge-nf-call-iptables = 1
+
+					cat /etc/sysctl.d/k8s.conf
+					sysctl --system
+					sysctl -a | grep bridge-bridge-nf-call
+
+				4th error: [ERROR NumCPU]: the number of available CPUs 1 is less than the required 2 : resources requirement
+					skip these errors for now
+					 kubeadm init --pod-network-cidr=10.240.0.0/16  --ignore-preflight-errors=NumCPU  --ignore-preflight-errors=Mem
+
+	pods status
+		1.	kubectl get pods - fails firstly - why? - kubectl contact to API : therefore should know the IP, user and port of it. 
+		2.	kubectl get pods -h
+		3.	mkdir -p $HOME/.kube
+		4.	sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+		5.	sudo chown $(id -u):$(id -g) $HOME/.kube/config
+		6. 	systemctl status kubectl
+		7. 	kubectl get nodes
+		8.	hostname
+
+
+2 Setting up of Worker
+	same till installation of kubeadm point 6.
+	
+	go to master create a new token..
+		1.	kubeadm token list	
+		2.	ifconfig	 
+		3.	kubeadm token create --print-join-command	   - token created <TOKEN command>	
+
+	go to worker and run <TOKEN command>   - it fails for first time
+		1.	trouble shoot the 1st, 2nd, 3rd error as done in master
+		2. 	<TOKEN command>
+
+	go to master for verification
+		1.	kubectl get nodes
+
+</pre>
+
+k8-14
+
+namespace commands - creating namespace is "tech"
+
+52. kubectl create namespace tech
+53. kubectl get namespace
+54. kubectl create deployment --image=vimal13/apache-webserver-php -n tech
+55. kubectl get pods -n tech
+56. kubectl get pod -o wide -n tech 
+57. kubectl expose depoy my --port=80 --type=NodePort -n tech
+
+flannel commands- sets up the coredns too.
+
+58. cat/var/run/flannel/subnet.env
+59. kubectl get configmap
+60. kubectl get configmap -n kube-system
+61. kubectl edit get kube-flannel-cfg -n kube-system
+62. kubectl describe pod -l app=flannel -n kube-system   - daemon set to manage flannel pod
+63. kubectl get ds -n kube-system  - check desired state => 3
+
+k8-16
+
+Add user to cluster
+
+64. kubectl cluster-info
+65. openssl genrsa -out akshay-key 1024
+66. openssl req -new -key tango.key -out tango.csr
+67. Manually copying user tango.csr to master vim /etc/Kubernetes/pki/tango.csr
+68. openssl x509 -req -in tango.csr -CA ca.crt -CAkey ca.key -out tango.crt
+69. openssl    x509    -req -in tango.csr   -CA ca.crt   -CAkey ca.key   -CAcreateserial   -out tango.crt
+70. copy the master vim /etc/Kubernetes/pki/tango.crt to local user vim /kube_ws/tango.crt
+71. cat <<EOF > /etc/yum.repos.d/kubernetes.repo 
+<pre>
+	[kubernetes] 
+	name=Kubernetes baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64 enabled=1 
+	gpgcheck=1 
+	repo_gpgcheck=1
+	gpgkgey=https://packages.cloud.google.com/yum/doc/yum-key.gpg httpsg//packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+	EOF
+</pre>
+
+72. yum install -y kubectl
+73. kubectl config view
+74. kubectl  config  --kubeconfig  tango.kubeconfig  set-cluster myawkubecluster --server https://100.25.16.242:6443 --certificate-authority=ca.crt
+75. kubectl config --kubeconfig tango.kubeconfig set-credentials  tango --client-certificate tango.crt --client-key tango.key
+76. kubectl config view --kubeconfig tango.kubeconfig
+
+		
+<pre>
+FAQ:
+K8-1
+👉 What is Kubernetes?
+✔1. it is a tool used for Container management
+👉 What are the benefits of using Kubernetes?
+✔2. autoscaling: automatic launch and shutdown of containers as per the traffic.
+Multi tenancing: capability to manage multiple host.
+👉 On which architecture does Kubernetes work?
+✔3.it works on the architecture of Pods.
+👉 What is a multinode cluster and single-node cluster in Kubernetes?
+✔4.multi node cluster – one master(controller) and multiple workers(POD)
+Single node – one system behaving as master and worker both.
+👉 What do you mean by a pod in Kubernetes?
+✔5. the container in DE is known as Pods in K8.
+
+
+K8-2
+👉what is minikube?
+✔6  Minikube is a tool help in installing K8.
+👉How to install minikube and kubectl ?
+✔7 minikube.exe start --driver=virtualbox --kubernetes-version=v1.20.0
+Open command as admin - curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.20.0/bin/windows/amd64/kubectl.exe - download kubectl
+👉How to run any pod through kubectl ?
+✔8  give the pod name and the image name.
+kubectl.exe run myweb1 --image=vimal13/apache-webserver-php
+👉What do you mean by exposing the pod?
+✔9 making the container open to public world, i.e anyone with the url can access the server.
+
+👉How to expose the pod?
+✔10 kubectl.exe expose deployments <podname>  --port=80  --type=NodePort
+👉 Difference between pod and container?
+✔11 the os launched over docker is container and the container launched by K8 is pod.
+👉 Difference between pod and deployment?
+✔12 if the pod is launched by the using just the image, once deleted, it will delete the pod and will not relaunch automatically.
+If the pod is launched through the deployment controller program, once deleted, it will delete and relaunch the pod simultaneously.
+
+K8-3
+👉What is single node cluster?
+✔13 Single node – one system behaving as master and worker both.
+👉What is deployment controller 🎮?
+✔14. DEPLOYEMNT CONTROLLER PROGRAM monitors the management of pod. As the pod goes down, it will launch it again
+👉What is fail over?
+✔15. it means, if any pod goes down , K8 launches the exact copy of it.
+
+
+
+👉What is kube API/API server?
+✔ 16.the program through which the client interact to Kubernetes server or master.
+👉What are ways to send request to kubernete Server?
+✔17. there are two ways : via code and CLI.
+👉What is YAML language.How to write code in YAML language?
+✔18. yaml is a markup language which use key value pair and involves indentation. K8 scripts are written in yaml language. and execute it via command : kubectl create -f <filename>
+👉What is kubelet program?
+✔19.kubelet is a program used by k8 to launch a container.
+👉What is kubernete resources?
+✔20. the keywords like pod , deploy in K8 are known as resources.
+👉 Use of get and describe command?
+✔21.kubectl.exe get deployments- total deployed pods by deployment controller program in K8
+kubectl.exe get pods- total number of running pods.
+kubectl.exe describe pods- gives the every details of pods.
+👉 What is use of spec and kind keyword?
+✔22. kind: the keyword use to specify the pod.
+Spec:  the specification of pod -> name of the container and the images used.
+
+K8-4
+👉 What is RC ?
+✔23. RC is a replication controller program which manages the monitoring of container in case of failover.
+👉 What is replica?
+✔24. Replica is container which is the exact copy made from another container.
+👉 difference between create and apply?
+✔25. If a particular yml file has already run once in K8 , and requirement re run the same program with some minor changes, then create keyword is not applicable, one has to apply keyword.
+kubectl create -f rc.yml
+kubectl apply -f rc.yml
+👉 command to see replication controller?
+✔26. kubectl get rc
+👉 What is labels ?
+✔27. Management of container with the help of its IP is very dynamic as it changes on every restart, so instead we use a tag name or the label which remain static until the container is deleted. The labels are written is key value pair.
+
+
+K8-5
+👉 How and where is Reverse Proxy used in Kubernetes?
+✔28 the program running to serve on behalf of another is SERVER PROXY. 
+It has a feature Load balancer which balances the load and distribute the load to multiple same webserver hosted. 
+Reverse proxy is the process when the hosted server gives the response back to fronend(LB) as well as the recreation of request of client, it prevents the direct interaction between client and the backend server 
+👉 What are the different types of services in Kubernetes?
+✔29.  Cluster IP: the connectivity among the pods.
+Node port: it enables the connection between the public world and the private network of pods(container in docker) of K8. 
+External Load Balancer : if using an external load balancer like using EKS of AWS to manage the connectivity between pods and the public world(Internet).
+👉 What is the importance of labels?
+✔30. Management of container with the help of its IP is very dynamic as it changes on every restart, so instead we use a tag name or the label which remain static until the container is deleted. The labels are written is key value pair.
+👉 How does the NodePort service work?
+✔31. it is a load balancing service which enable the connection between the public world and the private network of pods(container in docker) of K8.
+👉 What is the difference between port, target port and Nodeport?
+✔32. port is unique number on which a program runs.
+When Program running inside container uses a port number, it is target port.
+Node port is the port number of base OS which has the pod running in it
+
+</pre>
+
+
